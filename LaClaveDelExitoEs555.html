@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>La Clave del Éxito es 555 - Mario Santander</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            cinzel: ['Cinzel', 'serif'],
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+          },
+          colors: {
+            gold: { 300: '#fde047', 400: '#facc15', 500: '#eab308', 600: '#ca8a04' }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { background-color: #05070d; color: #f3f4f6; font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
+    .glass-panel { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(16px); border: 1px solid rgba(255, 215, 0, 0.2); box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7); }
+    .glass-button { background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.15); transition: all 0.3s ease; }
+    .glass-button:hover { background: rgba(255, 255, 255, 0.2); border-color: rgba(250, 204, 21, 0.5); transform: translateY(-2px); }
+    .glow-gold { text-shadow: 0 0 25px rgba(234, 179, 8, 0.5); }
+    .page-transition { transition: opacity 0.4s ease, transform 0.4s ease; }
+    .hidden-page { opacity: 0; transform: scale(0.97); pointer-events: none; position: absolute; width: 100%; top: 0; left: 0; visibility: hidden; }
+    .active-page { opacity: 1; transform: scale(1); pointer-events: auto; position: relative; visibility: visible; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between select-none">
+
+  <!-- Fondo de partículas -->
+  <canvas id="bgParticles" class="fixed inset-0 pointer-events-none z-0"></canvas>
+
+  <!-- Encabezado -->
+  <header class="relative z-10 w-full max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center shadow-lg shadow-amber-500/30">
+        <i data-lucide="key-round" class="w-5 h-5 text-slate-950"></i>
+      </div>
+      <div>
+        <h1 class="font-cinzel font-bold text-sm md:text-base tracking-wider text-white">LA CLAVE DEL ÉXITO ES 555</h1>
+        <p class="text-[10px] text-amber-400/90 uppercase tracking-widest font-semibold">Mario Santander</p>
+      </div>
+    </div>
+    <button id="tocBtn" onclick="toggleTOC()" class="glass-button px-3.5 py-2 rounded-xl text-xs font-semibold text-gray-200 flex items-center gap-2">
+      <i data-lucide="book-open" class="w-4 h-4 text-amber-400"></i>
+      <span class="hidden sm:inline">Índice</span>
+    </button>
+  </header>
+
+  <!-- Menú Índice Modal -->
+  <div id="tocModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="glass-panel w-full max-w-lg rounded-3xl p-6 relative">
+      <button onclick="toggleTOC()" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i data-lucide="x" class="w-6 h-6"></i></button>
+      <h3 class="font-cinzel text-xl font-bold text-amber-400 mb-4 flex items-center gap-2"><i data-lucide="list" class="w-5 h-5"></i> Índice del Ebook</h3>
+      <div class="space-y-2 max-h-[60vh] overflow-y-auto pr-2" id="tocList"></div>
+    </div>
+  </div>
+
+  <!-- Contenedor Principal de Páginas -->
+  <main class="relative z-10 flex-1 max-w-5xl w-full mx-auto px-2 sm:px-6 py-2 flex flex-col justify-center">
+
+    <!-- PÁGINA 0: PORTADA PRINCIPAL CON CAJA FUERTE -->
+    <section id="page-0" class="active-page page-transition w-full">
+      <div onclick="openSafeAndStart()" class="cursor-pointer w-full glass-panel rounded-3xl p-6 sm:p-10 flex flex-col items-center text-center relative overflow-hidden border border-amber-500/40 shadow-2xl hover:border-amber-400 transition-all">
+        <div class="absolute -top-24 -left-24 w-72 h-72 bg-amber-500/15 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-bold tracking-widest uppercase mb-4">
+          <i data-lucide="sparkles" class="w-4 h-4"></i> Ebook Interactivo
+        </div>
+        <h1 class="font-cinzel text-3xl sm:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-amber-600 mb-2 glow-gold">
+          LA CLAVE DEL ÉXITO ES 555
+        </h1>
+        <p class="text-sm sm:text-base text-gray-300 font-medium mb-6">Autor: <span class="text-white font-bold tracking-wider">MARIO SANTANDER</span></p>
+
+        <!-- SVG Caja Fuerte -->
+        <div class="relative w-full max-w-[320px] aspect-square my-2 flex items-center justify-center">
+          <svg id="safeSvg" viewBox="0 0 200 200" class="w-full h-full drop-shadow-[0_0_35px_rgba(234,179,8,0.4)] transition-transform duration-500 hover:scale-105">
+            <rect x="20" y="20" width="160" height="160" rx="20" fill="#0f172a" stroke="#ca8a04" stroke-width="4"/>
+            <rect x="30" y="30" width="140" height="140" rx="14" fill="#1e293b" stroke="#475569" stroke-width="2"/>
+            <circle cx="100" cy="100" r="45" fill="#0f172a" stroke="#facc15" stroke-width="4"/>
+            <g id="safeWheel" style="transform-origin: 100px 100px; transition: transform 1s ease;">
+              <circle cx="100" cy="100" r="30" fill="#334155" stroke="#94a3b8" stroke-width="3"/>
+              <line x1="100" y1="70" x2="100" y2="130" stroke="#facc15" stroke-width="4"/>
+              <line x1="70" y1="100" x2="130" y2="100" stroke="#facc15" stroke-width="4"/>
+            </g>
+            <rect x="65" y="42" width="70" height="22" rx="4" fill="#020617" stroke="#334155" stroke-width="1.5"/>
+            <text id="safeDisplay" x="100" y="58" font-family="monospace" font-size="14" font-weight="bold" fill="#facc15" text-anchor="middle">555</text>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTENEDOR DINÁMICO DE PÁGINAS -->
+    <div id="dynamicPagesContainer"></div>
+
+  </main>
+
+  <!-- Navegación Inferior -->
+  <footer class="relative z-10 w-full max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+    <button id="prevBtn" onclick="prevPage()" class="glass-button px-5 py-2.5 rounded-2xl text-xs font-bold text-white flex items-center gap-2">
+      <i data-lucide="chevron-left" class="w-4 h-4"></i> Anterior
+    </button>
+    <div class="text-center">
+      <span id="pageIndicator" class="font-cinzel text-xs font-bold text-amber-400">00 / 18</span>
+    </div>
+    <button id="nextBtn" onclick="nextPage()" class="glass-button px-5 py-2.5 rounded-2xl text-xs font-bold text-white flex items-center gap-2">
+      Siguiente <i data-lucide="chevron-right" class="w-4 h-4"></i>
+    </button>
+  </footer>
+
+  <script>
+    const pagesData = [
+      // PORTADA SECCIÓN 1
+      { type: 'section', title: '5 PALABRAS PARA MANIFESTAR', subtitle: 'Principios creadores de la Realidad', icon: 'sparkles', bgGrad: 'from-amber-500/20 via-indigo-500/10 to-transparent' },
+      
+      // CONCEPTOS DE MANIFESTAR
+      { type: 'concept', cat: "5 Palabras para Manifestar", title: "1. Imaginar", desc: "El acto consciente de diseñar el estado deseado en el teatro de la mente con todo lujo de detalle.", render: drawImaginarColor },
+      { type: 'concept', cat: "5 Palabras para Manifestar", title: "2. Sentir", desc: "Cargar esa imagen mental con la emoción y la realidad sensorial de que ya está ocurriendo.", render: drawSentirColor },
+      { type: 'concept', cat: "5 Palabras para Manifestar", title: "3. Asumir", desc: "Tener la certeza Absoluta del estado cumplido; actuar, pensar y ser desde la identidad de quien ya lo ha experimentado.", render: drawAsumirColor },
+      { type: 'concept', cat: "5 Palabras para Manifestar", title: "4. Soltar", desc: "Abandonar la necesidad ansiosa de forzar el \"cómo\" o el \"cuándo\", reconociendo que la siembra ya fue hecha.", render: drawSoltarColor },
+      { type: 'concept', cat: "5 Palabras para Manifestar", title: "5. Agradecer", desc: "Vivir desde la gratitud anticipada, dando las gracias por un hecho que para la conciencia ya es absoluto e inalterable.", render: drawAgradecerColor },
+
+      // PORTADA SECCIÓN 2
+      { type: 'section', title: '5 PALABRAS PARA DESMANIFESTAR', subtitle: 'Comprendiendo las fuerzas de resistencia y escasez', icon: 'shield-alert', bgGrad: 'from-rose-500/20 via-purple-500/10 to-transparent' },
+
+      // CONCEPTOS DE DESMANIFESTAR
+      { type: 'concept', cat: "5 Palabras para DesManifestar", title: "1. Miedo", desc: "La alerta biológica de supervivencia ante la incertidumbre o el cambio; una señal de alarma que el cuerpo activa y que no desaparece con solo repetirse una frase positiva.", render: drawMiedoColor },
+      { type: 'concept', cat: "5 Palabras para DesManifestar", title: "2. Ansiedad", desc: "La dependencia emocional y visceral hacia el estado actual, las personas o la identidad conocida, que aferra el sistema al pasado por miedo a perder lo que ya tiene.", render: drawAnsiedadColor },
+      { type: 'concept', cat: "5 Palabras para DesManifestar", title: "3. Deseo", desc: "La distancia emocional y la sensación crónica de carencia que se genera cuando se desea algo desde la escasez, lo cual reafirma que todavía no lo tienes.", render: drawDeseoColor },
+      { type: 'concept', cat: "5 Palabras para DesManifestar", title: "4. Culpa", desc: "El freno moral e inconsciente que opera bajo la creencia de que no merecemos el bienestar, saboteando sutilmente cualquier logro antes de que se consolide.", render: drawCulpaColor },
+      { type: 'concept', cat: "5 Palabras para DesManifestar", title: "5. Resistencia", desc: "La fuerza reactiva del ego y del cuerpo biológico que se opone de forma natural a cualquier intento de alteración o salto cuántico en su entorno conocido.", render: drawResistenciaColor },
+
+      // PORTADA SECCIÓN 3
+      { type: 'section', title: '5 FRASES PARA LA TRANSMUTACIÓN', subtitle: 'Axiomas de alineación con la Consciencia Superior', icon: 'flame', bgGrad: 'from-emerald-500/20 via-amber-500/10 to-transparent' },
+
+      // FRASES DE TRANSMUTACIÓN CON ANIMACIONES DIGITALES
+      { type: 'phrase', cat: "Frases para la Transmutación", title: "Frase 1", desc: "No importa cuan largo sea el invierno <span class='inline-block px-2 py-0.5 my-1 text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 rounded-md'>[3D, Miedo, Ansiedad, Deseo, Culpa, Resistencia]</span> La Primavera siempre cumple su promesa. <span class='inline-block px-2 py-0.5 text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 rounded-md'>[Consciencia]</span>", render: drawSpringIllustration },
+      { type: 'phrase', cat: "Frases para la Transmutación", title: "Frase 2", desc: "No Importa cuán firme parezca la Roca <span class='inline-block px-2 py-0.5 my-1 text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 rounded-md'>[3D, Miedo, Ansiedad, Deseo, Culpa, Resistencia]</span> La Gota de Agua siempre la Atraviesa. <span class='inline-block px-2 py-0.5 text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 rounded-md'>[Consciencia]</span>", render: drawWaterStoneIllustration },
+      { type: 'phrase', cat: "Frases para la Transmutación", title: "Frase 3", desc: "No importa cuántas nubes cubran el cielo <span class='inline-block px-2 py-0.5 my-1 text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 rounded-md'>[3D, Miedo, Ansiedad, Deseo, Culpa, Resistencia]</span> El Sol Sigue Quemando por encima de ellas. <span class='inline-block px-2 py-0.5 text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 rounded-md'>[Consciencia]</span>", render: drawSunCloudsIllustration },
+      { type: 'phrase', cat: "Frases para la Transmutación", title: "Frase 4", desc: "No importa cuán blando sea el Carbón <span class='inline-block px-2 py-0.5 my-1 text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 rounded-md'>[3D, Miedo, Ansiedad, Deseo, Culpa, Resistencia]</span> La Presión del Tiempo siempre lo convierte en Diamante. <span class='inline-block px-2 py-0.5 text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 rounded-md'>[Consciencia]</span>", render: drawDiamondIllustration },
+      { type: 'phrase', cat: "Frases para la Transmutación", title: "Frase 5", desc: "No Importa cuán seco esté el desierto <span class='inline-block px-2 py-0.5 my-1 text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 rounded-md'>[3D, Miedo, Ansiedad, Deseo, Culpa, Resistencia]</span> La Primera Gota de Lluvia siempre despierta la semilla dormida. <span class='inline-block px-2 py-0.5 text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 rounded-md'>[Consciencia]</span>", render: drawDesertSeedIllustration }
+    ];
+
+    let currentPage = 0;
+    let canvasAnimId = null;
+    let animTime = 0;
+
+    function init() {
+      buildPages();
+      buildTOC();
+      updatePage();
+      initBgParticles();
+      lucide.createIcons();
+    }
+
+    function buildPages() {
+      const container = document.getElementById('dynamicPagesContainer');
+      container.innerHTML = pagesData.map((item, idx) => {
+        const pageNum = idx + 1;
+        if (item.type === 'section') {
+          return `
+            <section id="page-${pageNum}" class="hidden-page page-transition w-full">
+              <div class="glass-panel rounded-3xl p-8 sm:p-14 text-center relative overflow-hidden bg-gradient-to-br ${item.bgGrad}">
+                <div class="w-16 h-16 mx-auto mb-6 rounded-2xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-300">
+                  <i data-lucide="${item.icon}" class="w-8 h-8"></i>
+                </div>
+                <p class="text-xs font-bold uppercase tracking-widest text-amber-400 mb-2">Sección del Libro</p>
+                <h2 class="font-cinzel text-3xl sm:text-4xl font-black text-white mb-4 glow-gold">${item.title}</h2>
+                <p class="text-sm sm:text-base text-gray-300 max-w-md mx-auto">${item.subtitle}</p>
+              </div>
+            </section>
+          `;
+        } else {
+          return `
+            <section id="page-${pageNum}" class="hidden-page page-transition w-full">
+              <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                <div class="lg:col-span-6 flex justify-center">
+                  <div class="w-full max-w-[380px] aspect-square glass-panel rounded-3xl p-3 shadow-2xl relative overflow-hidden">
+                    <canvas id="canvas-${pageNum}" class="w-full h-full rounded-2xl block"></canvas>
+                  </div>
+                </div>
+                <div class="lg:col-span-6 flex flex-col justify-center">
+                  <div class="glass-panel p-6 sm:p-8 rounded-3xl relative">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-semibold mb-4">
+                      <span>${item.cat}</span>
+                    </div>
+                    <h2 class="font-cinzel text-2xl sm:text-3xl font-bold text-white mb-4 glow-gold">${item.title}</h2>
+                    <p class="text-sm sm:text-base text-slate-200 leading-relaxed">${item.desc}</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+          `;
+        }
+      }).join('');
+    }
+
+    function buildTOC() {
+      const list = document.getElementById('tocList');
+      let html = `<button onclick="goToPage(0)" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-amber-500/20 text-amber-300 font-semibold text-sm">00. Portada Principal</button>`;
+      pagesData.forEach((c, idx) => {
+        const isSec = c.type === 'section';
+        html += `<button onclick="goToPage(${idx + 1})" class="w-full text-left px-4 py-2 rounded-xl hover:bg-white/10 ${isSec ? 'text-amber-400 font-bold bg-amber-500/10' : 'text-gray-200 text-xs'} font-medium flex items-center justify-between">
+          <span>${c.title}</span><span class="text-[10px] text-gray-400">${c.cat || 'Portada Seccion'}</span>
+        </button>`;
+      });
+      list.innerHTML = html;
+    }
+
+    function toggleTOC() {
+      document.getElementById('tocModal').classList.toggle('hidden');
+    }
+
+    function goToPage(index) {
+      document.getElementById(`page-${currentPage}`).classList.remove('active-page');
+      document.getElementById(`page-${currentPage}`).classList.add('hidden-page');
+      currentPage = index;
+      updatePage();
+      document.getElementById('tocModal').classList.add('hidden');
+    }
+
+    function nextPage() { if (currentPage < pagesData.length) goToPage(currentPage + 1); }
+    function prevPage() { if (currentPage > 0) goToPage(currentPage - 1); }
+
+    function openSafeAndStart() {
+      document.getElementById('safeWheel').style.transform = 'rotate(360deg)';
+      document.getElementById('safeDisplay').textContent = 'OPEN';
+      setTimeout(() => { goToPage(1); }, 600);
+    }
+
+    function updatePage() {
+      document.querySelectorAll('section').forEach((s, idx) => {
+        if (idx === currentPage) {
+          s.classList.remove('hidden-page');
+          s.classList.add('active-page');
+        } else {
+          s.classList.remove('active-page');
+          s.classList.add('hidden-page');
+        }
+      });
+
+      document.getElementById('pageIndicator').textContent = `${String(currentPage).padStart(2, '0')} / ${pagesData.length}`;
+      document.getElementById('prevBtn').style.opacity = currentPage === 0 ? '0.3' : '1';
+      document.getElementById('nextBtn').style.opacity = currentPage === pagesData.length ? '0.3' : '1';
+
+      if (canvasAnimId) cancelAnimationFrame(canvasAnimId);
+      if (currentPage > 0 && pagesData[currentPage - 1].type !== 'section') {
+        startConceptCanvas(currentPage);
+      }
+    }
+
+    function startConceptCanvas(pageIdx) {
+      const item = pagesData[pageIdx - 1];
+      const cvs = document.getElementById(`canvas-${pageIdx}`);
+      if (!cvs) return;
+      const ctx = cvs.getContext('2d');
+      cvs.width = 400; cvs.height = 400;
+      animTime = 0;
+
+      function loop() {
+        animTime += 0.02;
+        ctx.clearRect(0, 0, 400, 400);
+        item.render(ctx, animTime);
+        canvasAnimId = requestAnimationFrame(loop);
+      }
+      loop();
+    }
+
+    // ==========================================
+    // ANIMACIONES CANVAS DE LAS FRASES DIGITALES
+    // ==========================================
+
+    function drawSpringIllustration(ctx, t) {
+      let bgGrad = ctx.createLinearGradient(0, 0, 400, 400);
+      bgGrad.addColorStop(0, '#1e293b'); bgGrad.addColorStop(0.5, '#0f172a'); bgGrad.addColorStop(1, '#064e3b');
+      ctx.fillStyle = bgGrad; ctx.fillRect(0, 0, 400, 400);
+
+      ctx.strokeStyle = '#451a03'; ctx.lineWidth = 8; ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.moveTo(400, 130); ctx.bezierCurveTo(260, 160, 200, 100, 100, 210); ctx.stroke();
+
+      const blossoms = [{x: 100, y: 210, s: 16}, {x: 140, y: 130, s: 12}, {x: 190, y: 150, s: 18}, {x: 270, y: 150, s: 20}];
+      blossoms.forEach((b, i) => {
+        let pulse = Math.sin(t * 2 + i) * 2;
+        ctx.save(); ctx.translate(b.x, b.y); ctx.fillStyle = '#f472b6';
+        for (let k = 0; k < 5; k++) {
+          ctx.rotate((Math.PI * 2) / 5); ctx.beginPath();
+          ctx.ellipse(0, (b.s + pulse)/2, (b.s + pulse)/3, (b.s + pulse)/2, 0, 0, Math.PI * 2); ctx.fill();
+        }
+        ctx.fillStyle = '#fde047'; ctx.beginPath(); ctx.arc(0, 0, (b.s + pulse)/3, 0, Math.PI * 2); ctx.fill();
+        ctx.restore();
+      });
+
+      // Mariposa flotando
+      let bx = 230 + Math.cos(t*1.5)*25, by = 210 + Math.sin(t*2)*15;
+      ctx.save(); ctx.translate(bx, by);
+      ctx.fillStyle = '#fbcfe8'; ctx.beginPath(); ctx.ellipse(-8, -6, 10, 14, -Math.PI/6, 0, Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.ellipse(8, -6, 10, 14, Math.PI/6, 0, Math.PI*2); ctx.fill();
+      ctx.fillStyle = '#881337'; ctx.beginPath(); ctx.ellipse(0, 0, 2, 10, 0, 0, Math.PI*2); ctx.fill();
+      ctx.restore();
+    }
+
+    function drawWaterStoneIllustration(ctx, t) {
+      let bgGrad = ctx.createRadialGradient(200, 200, 30, 200, 200, 220);
+      bgGrad.addColorStop(0, '#0c4a6e'); bgGrad.addColorStop(0.6, '#0284c7'); bgGrad.addColorStop(1, '#090d16');
+      ctx.fillStyle = bgGrad; ctx.fillRect(0, 0, 400, 400);
+
+      // Roca
+      let rockGrad = ctx.createLinearGradient(100, 200, 300, 320);
+      rockGrad.addColorStop(0, '#334155'); rockGrad.addColorStop(1, '#0f172a');
+      ctx.fillStyle = rockGrad; ctx.beginPath(); ctx.ellipse(200, 280, 90, 50, 0, 0, Math.PI*2); ctx.fill();
+
+      // Ondas en piedra
+      let rippleR = (t * 30) % 50;
+      ctx.strokeStyle = `rgba(56, 189, 248, ${1 - rippleR/50})`; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.ellipse(200, 245, rippleR * 1.2, rippleR * 0.4, 0, 0, Math.PI * 2); ctx.stroke();
+
+      // Grieta dorada
+      ctx.strokeStyle = '#fef08a'; ctx.lineWidth = 3; ctx.shadowColor = '#facc15'; ctx.shadowBlur = 10;
+      ctx.beginPath(); ctx.moveTo(200, 245); ctx.lineTo(195, 275); ctx.lineTo(205, 300); ctx.stroke(); ctx.shadowBlur = 0;
+
+      // Gota cayendo
+      let dropY = (t * 140) % 150 + 90;
+      ctx.fillStyle = '#7dd3fc'; ctx.shadowColor = '#38bdf8'; ctx.shadowBlur = 10;
+      ctx.beginPath(); ctx.arc(200, dropY, 7, 0, Math.PI * 2); ctx.fill();
+    }
+
+    function drawSunCloudsIllustration(ctx, t) {
+      let bgGrad = ctx.createLinearGradient(0, 0, 0, 400);
+      bgGrad.addColorStop(0, '#0284c7'); bgGrad.addColorStop(0.5, '#38bdf8'); bgGrad.addColorStop(1, '#090d16');
+      ctx.fillStyle = bgGrad; ctx.fillRect(0, 0, 400, 400);
+
+      // Rayos de sol
+      ctx.save(); ctx.translate(200, 120); ctx.strokeStyle = 'rgba(253, 224, 71, 0.3)'; ctx.lineWidth = 4;
+      for (let i = 0; i < 12; i++) {
+        ctx.rotate((Math.PI * 2) / 12); ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(0, 180); ctx.stroke();
+      }
+      ctx.restore();
+
+      // Sol brillante
+      ctx.fillStyle = '#fef08a'; ctx.shadowColor = '#f59e0b'; ctx.shadowBlur = 35;
+      ctx.beginPath(); ctx.arc(200, 120, 50, 0, Math.PI * 2); ctx.fill(); ctx.shadowBlur = 0;
+
+      // Nubes tormentosas
+      let cloudX = Math.sin(t) * 10;
+      ctx.fillStyle = '#1e293b'; ctx.beginPath();
+      ctx.arc(130 + cloudX, 260, 45, 0, Math.PI * 2);
+      ctx.arc(200 + cloudX, 240, 55, 0, Math.PI * 2);
+      ctx.arc(270 + cloudX, 260, 45, 0, Math.PI * 2);
+      ctx.rect(80, 260, 240, 60); ctx.fill();
+    }
+
+    function drawDiamondIllustration(ctx, t) {
+      let bgGrad = ctx.createRadialGradient(200, 200, 20, 200, 200, 220);
+      bgGrad.addColorStop(0, '#2e1065'); bgGrad.addColorStop(1, '#030712');
+      ctx.fillStyle = bgGrad; ctx.fillRect(0, 0, 400, 400);
+
+      // Diamante brillante
+      ctx.save(); ctx.translate(200, 200); ctx.rotate(Math.sin(t * 0.5) * 0.1);
+      ctx.shadowColor = '#38bdf8'; ctx.shadowBlur = 30;
+
+      let dGrad = ctx.createLinearGradient(-50, -50, 50, 50);
+      dGrad.addColorStop(0, '#e0f2fe'); dGrad.addColorStop(0.5, '#38bdf8'); dGrad.addColorStop(1, '#818cf8');
+      ctx.fillStyle = dGrad;
+
+      ctx.beginPath(); ctx.moveTo(-45, -20); ctx.lineTo(0, -60); ctx.lineTo(45, -20); ctx.lineTo(0, 65); ctx.closePath(); ctx.fill();
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)'; ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.moveTo(-45, -20); ctx.lineTo(45, -20); ctx.moveTo(0, -60); ctx.lineTo(0, 65); ctx.stroke();
+      ctx.restore();
+    }
+
+    function drawDesertSeedIllustration(ctx, t) {
+      let bgGrad = ctx.createLinearGradient(0, 0, 0, 400);
+      bgGrad.addColorStop(0, '#451a03'); bgGrad.addColorStop(0.7, '#27272a'); bgGrad.addColorStop(1, '#090d16');
+      ctx.fillStyle = bgGrad; ctx.fillRect(0, 0, 400, 400);
+
+      // Tierra árida
+      ctx.strokeStyle = '#a16207'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(0, 280); ctx.lineTo(400, 280); ctx.stroke();
+
+      // Brote verde
+      ctx.save(); ctx.translate(200, 280); ctx.shadowColor = '#4ade80'; ctx.shadowBlur = 15;
+      ctx.strokeStyle = '#22c55e'; ctx.lineWidth = 4; ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.moveTo(0, 0); ctx.quadraticCurveTo(-5, -20, 0, -40); ctx.stroke();
+
+      ctx.fillStyle = '#4ade80';
+      ctx.beginPath(); ctx.ellipse(-10, -38, 12, 5, -Math.PI / 4, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.ellipse(10, -42, 12, 5, Math.PI / 4, 0, Math.PI * 2); ctx.fill();
+      ctx.restore();
+
+      // Gota cayendo
+      let rY = (t * 120) % 200 + 80;
+      if (rY < 275) {
+        ctx.fillStyle = '#38bdf8'; ctx.shadowColor = '#0284c7'; ctx.shadowBlur = 8;
+        ctx.beginPath(); ctx.arc(200, rY, 5, 0, Math.PI * 2); ctx.fill();
+      }
+    }
+
+    // ANIMACIONES DE PALABRAS CONCEPTUALES
+    function drawImaginarColor(ctx, t) {
+      let bg = ctx.createRadialGradient(200, 200, 20, 200, 200, 220);
+      bg.addColorStop(0, '#311042'); bg.addColorStop(0.5, '#0f172a'); bg.addColorStop(1, '#020617');
+      ctx.fillStyle = bg; ctx.fillRect(0,0,400,400);
+      ctx.save(); ctx.translate(200, 200); ctx.shadowColor = '#facc15'; ctx.shadowBlur = 25;
+      ctx.strokeStyle = '#fef08a'; ctx.lineWidth = 4;
+      ctx.beginPath(); ctx.ellipse(0, 0, 90, 50, 0, 0, Math.PI * 2); ctx.stroke();
+      let irisGrad = ctx.createRadialGradient(0,0,5,0,0,30);
+      irisGrad.addColorStop(0, '#fde047'); irisGrad.addColorStop(0.5, '#ec4899'); irisGrad.addColorStop(1, '#8b5cf6');
+      ctx.fillStyle = irisGrad; ctx.beginPath(); ctx.arc(0, 0, 32 + Math.sin(t*2)*3, 0, Math.PI*2); ctx.fill();
+      ctx.fillStyle = '#0f172a'; ctx.beginPath(); ctx.arc(0, 0, 14, 0, Math.PI*2); ctx.fill();
+      ctx.restore();
+    }
+
+    function drawSentirColor(ctx, t) {
+      let bg = ctx.createLinearGradient(0,0,400,400);
+      bg.addColorStop(0, '#4c0519'); bg.addColorStop(0.5, '#831843'); bg.addColorStop(1, '#0f172a');
+      ctx.fillStyle = bg; ctx.fillRect(0,0,400,400);
+      let scale = 1 + Math.sin(t*4)*0.1;
+      ctx.save(); ctx.translate(200, 200); ctx.scale(scale, scale); ctx.shadowColor = '#f43f5e'; ctx.shadowBlur = 35;
+      let heartGrad = ctx.createLinearGradient(-40,-40,40,40);
+      heartGrad.addColorStop(0, '#fde047'); heartGrad.addColorStop(0.5, '#f43f5e'); heartGrad.addColorStop(1, '#e11d48');
+      ctx.fillStyle = heartGrad; ctx.beginPath(); ctx.moveTo(0, 25);
+      ctx.bezierCurveTo(-45, -20, -75, -70, 0, -100); ctx.bezierCurveTo(75, -70, 45, -20, 0, 25); ctx.fill(); ctx.restore();
+    }
+
+    function drawAsumirColor(ctx, t) {
+      let bg = ctx.createRadialGradient(200, 200, 10, 200, 200, 200);
+      bg.addColorStop(0, '#1e1b4b'); bg.addColorStop(0.7, '#020617'); ctx.fillStyle = bg; ctx.fillRect(0,0,400,400);
+      ctx.save(); ctx.translate(200, 210 + Math.sin(t*2)*5); ctx.shadowColor = '#facc15'; ctx.shadowBlur = 30;
+      let cGrad = ctx.createLinearGradient(-80,0,80,0);
+      cGrad.addColorStop(0, '#fef08a'); cGrad.addColorStop(0.5, '#eab308'); cGrad.addColorStop(1, '#ca8a04');
+      ctx.fillStyle = cGrad; ctx.beginPath();
+      ctx.moveTo(-80, 40); ctx.lineTo(-90, -40); ctx.lineTo(-40, 0); ctx.lineTo(0, -60);
+      ctx.lineTo(40, 0); ctx.lineTo(90, -40); ctx.lineTo(80, 40); ctx.closePath(); ctx.fill(); ctx.restore();
+    }
+
+    function drawSoltarColor(ctx, t) {
+      let bg = ctx.createLinearGradient(0,0,0,400);
+      bg.addColorStop(0, '#064e3b'); bg.addColorStop(1, '#022c22'); ctx.fillStyle = bg; ctx.fillRect(0,0,400,400);
+      ctx.strokeStyle = '#34d399'; ctx.lineWidth = 5; ctx.beginPath();
+      ctx.moveTo(150, 350); ctx.quadraticCurveTo(170, 280, 180, 220); ctx.stroke();
+      for(let i=0; i<10; i++) {
+        let p = (t * 0.8 + i*0.2) % 1;
+        let sx = 180 + p * 180 + Math.sin(p*5)*20, sy = 220 - p * 160 - Math.cos(p*3)*15;
+        ctx.fillStyle = '#a7f3d0'; ctx.beginPath(); ctx.arc(sx, sy, 5*(1-p*0.5), 0, Math.PI*2); ctx.fill();
+      }
+    }
+
+    function drawAgradecerColor(ctx, t) {
+      let bg = ctx.createRadialGradient(200, 200, 20, 200, 200, 220);
+      bg.addColorStop(0, '#78350f'); bg.addColorStop(0.6, '#451a03'); bg.addColorStop(1, '#0f172a');
+      ctx.fillStyle = bg; ctx.fillRect(0,0,400,400);
+      ctx.save(); ctx.translate(200, 200); ctx.rotate(t*0.5); ctx.shadowColor = '#fde047'; ctx.shadowBlur = 25; ctx.fillStyle = '#fbbf24';
+      for(let i=0; i<8; i++) {
+        ctx.rotate(Math.PI/4); ctx.beginPath(); ctx.ellipse(0, 45, 18, 40, 0, 0, Math.PI*2); ctx.fill();
+      }
+      ctx.fillStyle = '#fef08a'; ctx.beginPath(); ctx.arc(0, 0, 25, 0, Math.PI*2); ctx.fill(); ctx.restore();
+    }
+
+    function drawMiedoColor(ctx, t) {
+      ctx.fillStyle = '#18181b'; ctx.fillRect(0,0,400,400);
+      ctx.save(); ctx.translate(200,200); ctx.strokeStyle = '#ef4444'; ctx.lineWidth = 4; ctx.shadowColor = '#ef4444'; ctx.shadowBlur = 20;
+      ctx.beginPath();
+      for(let a=0; a<Math.PI*2; a+=0.2) {
+        let r = 80 + (Math.random()-0.5)*25; ctx.lineTo(Math.cos(a)*r, Math.sin(a)*r);
+      }
+      ctx.closePath(); ctx.stroke(); ctx.restore();
+    }
+
+    function drawAnsiedadColor(ctx, t) {
+      ctx.fillStyle = '#0c0a09'; ctx.fillRect(0,0,400,400);
+      ctx.save(); ctx.translate(200,200); ctx.strokeStyle = '#f97316'; ctx.lineWidth = 3; ctx.shadowColor = '#ea580c'; ctx.shadowBlur = 15;
+      ctx.beginPath();
+      for(let i=0; i<150; i++) {
+        let ang = i * 0.15 + t*3, r = i * 0.8; ctx.lineTo(Math.cos(ang)*r, Math.sin(ang)*r);
+      }
+      ctx.stroke(); ctx.restore();
+    }
+
+    function drawDeseoColor(ctx, t) {
+      let bg = ctx.createLinearGradient(0,0,400,400);
+      bg.addColorStop(0, '#2e1065'); bg.addColorStop(1, '#090d16'); ctx.fillStyle = bg; ctx.fillRect(0,0,400,400);
+      let dist = 60 + Math.sin(t*2)*20;
+      ctx.fillStyle = '#38bdf8'; ctx.beginPath(); ctx.arc(200 - dist, 200, 22, 0, Math.PI*2); ctx.fill();
+      ctx.fillStyle = '#c084fc'; ctx.beginPath(); ctx.arc(200 + dist, 200, 22, 0, Math.PI*2); ctx.fill();
+    }
+
+    function drawCulpaColor(ctx, t) {
+      ctx.fillStyle = '#0f172a'; ctx.fillRect(0,0,400,400);
+      ctx.save(); ctx.translate(200,200); ctx.strokeStyle = '#64748b'; ctx.lineWidth = 6; ctx.shadowColor = '#475569'; ctx.shadowBlur = 15;
+      let chainY = Math.sin(t*2)*10; ctx.strokeRect(-60, -60 + chainY, 120, 120);
+      ctx.fillStyle = '#334155'; ctx.fillRect(-40, -40 + chainY, 80, 80); ctx.restore();
+    }
+
+    function drawResistenciaColor(ctx, t) {
+      ctx.fillStyle = '#083344'; ctx.fillRect(0,0,400,400);
+      ctx.shadowColor = '#06b6d4'; ctx.shadowBlur = 25; ctx.fillStyle = '#22d3ee'; ctx.fillRect(180, 60, 40, 280);
+    }
+
+    function initBgParticles() {
+      const cvs = document.getElementById('bgParticles');
+      const ctx = cvs.getContext('2d');
+      cvs.width = window.innerWidth; cvs.height = window.innerHeight;
+      let pts = Array.from({length: 35}, () => ({ x: Math.random()*cvs.width, y: Math.random()*cvs.height, r: Math.random()*2 + 0.5, s: Math.random()*0.5 + 0.2 }));
+      function anim() {
+        ctx.clearRect(0,0,cvs.width,cvs.height);
+        ctx.fillStyle = 'rgba(250, 204, 21, 0.35)';
+        pts.forEach(p => {
+          p.y -= p.s; if(p.y < 0) p.y = cvs.height;
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2); ctx.fill();
+        });
+        requestAnimationFrame(anim);
+      }
+      anim();
+    }
+
+    window.onload = init;
+  </script>
+</body>
+</html>
